@@ -10,18 +10,20 @@ import (
 
 func GetAllTareas(c *gin.Context) {
 	var tareas []models.Tarea
-	if result := initializers.DB.Find(&tareas); result.Error != nil {
+
+	if result := initializers.DB.Preload("Proyecto.Usuario").Find(&tareas); result.Error != nil {
+
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": tareas})
+
 }
 
 func GetTarea(c *gin.Context) {
 	var tarea models.Tarea
-	if result := initializers.DB.First(&tarea, c.Param("id")); result.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
+	if result := initializers.DB.Preload("Proyecto.Usuario").First(&tarea, c.Param("id")); result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Tarea no encontrada!"})
 		return
 	}
 

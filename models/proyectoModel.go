@@ -11,5 +11,5 @@ type Proyecto struct {
 	FechaInicio string  `gorm:"not null;type:date"`
 	FechaFin    string  `gorm:"not null;type:date"`
 	IDUsuario   uint    `gorm:"not null"`
-	Usuario     Usuario `gorm:"foreignKey:IDUsuario"`
+	Usuario     Usuario `gorm:"foreignKey:IDUsuario;references:ID"`
 }

@@ -10,7 +10,7 @@ import (
 
 func GetAllProyectos(c *gin.Context) {
 	var proyectos []models.Proyecto
-	if result := initializers.DB.Find(&proyectos); result.Error != nil {
+	if result := initializers.DB.Preload("Usuario").Find(&proyectos); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error})
 		return
 	}

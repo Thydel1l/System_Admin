@@ -10,7 +10,7 @@ import (
 
 func GetAllArchivosAdjuntos(c *gin.Context) {
 	var archivosadjuntos []models.ArchivoAdjunto
-	if result := initializers.DB.Find(&archivosadjuntos); result.Error != nil {
+	if result := initializers.DB.Preload("Tarea.Proyecto").Find(&archivosadjuntos); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error})
 		return
 	}
@@ -20,7 +20,7 @@ func GetAllArchivosAdjuntos(c *gin.Context) {
 
 func GetArchivoAdjunto(c *gin.Context) {
 	var archivoadjunto models.ArchivoAdjunto
-	if result := initializers.DB.First(&archivoadjunto, c.Param("id")); result.Error != nil {
+	if result := initializers.DB.Preload("Tarea.Proyecto").First(&archivoadjunto, c.Param("id")); result.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	}

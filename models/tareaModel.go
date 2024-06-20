@@ -10,5 +10,5 @@ type Tarea struct {
 	Descripcion       string   `gorm:"type:text"`
 	PlazoFinalizacion int      `gorm:"not null"`
 	IDProyecto        uint     `gorm:"not null"`
-	Proyecto          Proyecto `gorm:"foreignKey:IDProyecto"`
+	Proyecto          Proyecto `gorm:"foreignKey:IDProyecto;references:ID"`
 }
