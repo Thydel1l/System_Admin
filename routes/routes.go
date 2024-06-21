@@ -39,4 +39,8 @@ func SetupRoutes(router *gin.Engine) {
 		archivosadjuntos.DELETE("/:id/", controllers.DeleteArchivoAdjunto)
 
 	}
+	auth := router.Group("/auth")
+	{
+		auth.POST("/", controllers.ValidateLogin)
+	}
 }
