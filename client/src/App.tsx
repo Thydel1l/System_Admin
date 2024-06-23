@@ -7,6 +7,7 @@ import {
 import {Users} from "@/components/users/users.tsx";
 import Home from "@/components/home.tsx";
 import {Layout} from "@/components/layout.tsx";
+import {Projects} from "@/components/projects/projects.tsx";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,15 @@ const router = createBrowserRouter([
         element: (
             <Layout>
                 <Users/>
+            </Layout>
+
+        ),
+    },
+    {
+        path: "/projects",
+        element: (
+            <Layout>
+                <Projects/>
             </Layout>
 
         ),

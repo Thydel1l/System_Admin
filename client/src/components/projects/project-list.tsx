@@ -29,10 +29,12 @@ import {Input} from "@/components/ui/input"
 
 import {Button} from "@/components/ui/button.tsx";
 import {Edit2, Menu, PlusIcon, Search, Trash} from "lucide-react";
-import userModalUser from "@/hooks/use-modal-user.ts";
+import useModalProject from "@/hooks/use-modal-project.ts";
 
 export default function UsersList() {
-    const [users, setUsers] = useState<any[]>([]);
+    const [projects, setProjects] = useState<any[]>([]);
+
+    const openModal = useModalProject((state) => state.openModal);
 
     useEffect(() => {
         //fetch users
@@ -41,25 +43,41 @@ export default function UsersList() {
                 console.log(data);
             });
         })
-        setUsers([
+        setProjects([
             {
                 id: 1,
-                name: "John Doe",
-                email: "john@mail.com",
-                password: "123456",
-                rol: "Admin",
+                project: "Americas Cup",
+                startDate: "10/10/2021",
+                finishDate: "-",
+                state: "2da Iteracion",
+                manager: "John Doe",
             },
             {
                 id: 2,
-                name: "Jane Doe",
-                email: "jane@gmail.com",
-                password: "pass",
-                rol: "User",
+                project: "Copa America",
+                startDate: "03/09/2021",
+                finishDate: "-",
+                state: "2da Iteracion",
+                manager: "John Doe",
+            },
+            {
+                id: 3,
+                project: "Copa Libertadores",
+                startDate: "11/11/2020",
+                finishDate: "-",
+                state: "2da Iteracion",
+                manager: "John Doe",
+            },
+            {
+                id: 4,
+                project: "Copa Sudamericana",
+                startDate: "09/12/2020",
+                finishDate: "02/02/2021",
+                state: "2da Iteracion",
+                manager: "John Doe",
             },
         ]);
     }, []);
-
-    const openModal = userModalUser((state) => state.openModal);
 
     return (
         <>
@@ -70,12 +88,12 @@ export default function UsersList() {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator/>
                     <BreadcrumbItem>
-                        <BreadcrumbLink>Usuarios</BreadcrumbLink>
+                        <BreadcrumbLink>Proyectos</BreadcrumbLink>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
             <div className="container mx-auto p-4">
-                <h1 className="text-3xl font-bold text-start mb-2">Usuarios</h1>
+                <h1 className="text-3xl font-bold text-start mb-2">Proyectos</h1>
                 <div className="flex justify-between items-center mb-4">
                     <div className="relative">
                         <Input className="pr-10" placeholder="Buscar..."/>
@@ -83,11 +101,12 @@ export default function UsersList() {
                     </div>
                     <Select>
                         <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Rol"/>
+                            <SelectValue placeholder="Estado"/>
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="light">Admin</SelectItem>
-                            <SelectItem value="dark">User</SelectItem>
+                            <SelectItem value="1">1era Iteracion</SelectItem>
+                            <SelectItem value="2">2da Iteracion</SelectItem>
+                            <SelectItem value="3">3ra Iteracion</SelectItem>
                         </SelectContent>
                     </Select>
                     <Button size='sm' onClick={() => openModal({})}>
@@ -97,25 +116,27 @@ export default function UsersList() {
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
                     <Table>
-                        <TableCaption>Lista de usuarios mas recientes</TableCaption>
+                        <TableCaption>Lista de proyectos mas recientes</TableCaption>
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="w-[100px] text-center">Item</TableHead>
-                                <TableHead className="text-center">Usuario</TableHead>
-                                <TableHead className="text-center">Email</TableHead>
-                                <TableHead className="text-center">Contraseña</TableHead>
-                                <TableHead className="text-center">Rol</TableHead>
+                                <TableHead className="text-center">Proyecto</TableHead>
+                                <TableHead className="text-center">Fecha Inicio</TableHead>
+                                <TableHead className="text-center">Fecha Cierre</TableHead>
+                                <TableHead className="text-center">Estado</TableHead>
+                                <TableHead className="text-center">Encargado</TableHead>
                                 <TableHead className="text-center">Acciones</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {users.map((user, index) => (
-                                <TableRow key={user.id}>
+                            {projects.map((project, index) => (
+                                <TableRow key={project.id}>
                                     <TableCell>{index + 1}</TableCell>
-                                    <TableCell>{user.name}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.password}</TableCell>
-                                    <TableCell>{user.rol}</TableCell>
+                                    <TableCell>{project.project}</TableCell>
+                                    <TableCell>{project.startDate}</TableCell>
+                                    <TableCell>{project.finishDate}</TableCell>
+                                    <TableCell>{project.state}</TableCell>
+                                    <TableCell>{project.manager}</TableCell>
                                     <TableCell className="flex justify-center space-x-2">
                                         <Button variant="outline" size="icon">
                                             <Edit2 size={15} className="text-green-600"/>

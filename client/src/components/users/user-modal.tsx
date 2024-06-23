@@ -9,7 +9,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { PlusIcon } from "lucide-react";
-import useModalUser from "@/hooks/user-modal-user.ts";
+import useModalUser from "@/hooks/use-modal-user.ts";
 import { Input } from "@/components/ui/input.tsx";
 
 export default function UserModal() {
