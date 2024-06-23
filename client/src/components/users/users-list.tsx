@@ -36,27 +36,12 @@ export default function UsersList() {
 
     useEffect(() => {
         //fetch users
-        fetch("https://jsonplaceholder.typicode.com/users").then((response) => {
-            response.json().then((data) => {
-                console.log(data);
+        fetch("/api/v1/usuarios").then((response) => {
+            response.json().then((res) => {
+                setUsers(res.data);
             });
         })
-        setUsers([
-            {
-                id: 1,
-                name: "John Doe",
-                email: "john@mail.com",
-                password: "123456",
-                rol: "Admin",
-            },
-            {
-                id: 2,
-                name: "Jane Doe",
-                email: "jane@gmail.com",
-                password: "pass",
-                rol: "User",
-            },
-        ]);
+
     }, []);
 
     const openModal = userModalUser((state) => state.openModal);
@@ -112,10 +97,10 @@ export default function UsersList() {
                             {users.map((user, index) => (
                                 <TableRow key={user.id}>
                                     <TableCell>{index + 1}</TableCell>
-                                    <TableCell>{user.name}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.password}</TableCell>
-                                    <TableCell>{user.rol}</TableCell>
+                                    <TableCell>{user.Nombres}</TableCell>
+                                    <TableCell>{user.Email}</TableCell>
+                                    <TableCell>{user.Password}</TableCell>
+                                    <TableCell>{user.Rol}</TableCell>
                                     <TableCell className="flex justify-center space-x-2">
                                         <Button variant="outline" size="icon">
                                             <Edit2 size={15} className="text-green-600"/>
