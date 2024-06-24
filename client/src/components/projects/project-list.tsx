@@ -23,46 +23,16 @@ export default function UsersList() {
     }
 
     useEffect(() => {
-
-        fetch("https://jsonplaceholder.typicode.com/users").then((response) => {
+        const user = JSON.parse(localStorage.getItem("user") || '{}');
+        const userId = user.Dni;
+        if (!userId) {
+            navigate("/");
+        }
+        fetch(`/api/v1/proyectos/usuario/${userId}`).then((response) => {
             response.json().then((data) => {
-                console.log(data);
+                setProjects(data.data ?? []);
             });
         })
-        setProjects([
-            {
-                id: 1,
-                project: "Americas Cup",
-                startDate: "10/10/2021",
-                finishDate: "-",
-                state: "2da Iteracion",
-                manager: "John Doe",
-            },
-            {
-                id: 2,
-                project: "Copa America",
-                startDate: "03/09/2021",
-                finishDate: "-",
-                state: "2da Iteracion",
-                manager: "John Doe",
-            },
-            {
-                id: 3,
-                project: "Copa Libertadores",
-                startDate: "11/11/2020",
-                finishDate: "-",
-                state: "2da Iteracion",
-                manager: "John Doe",
-            },
-            {
-                id: 4,
-                project: "Copa Sudamericana",
-                startDate: "09/12/2020",
-                finishDate: "02/02/2021",
-                state: "2da Iteracion",
-                manager: "John Doe",
-            },
-        ]);
     }, []);
 
     return (
