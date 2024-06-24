@@ -14,7 +14,7 @@ import useModalProject from "@/hooks/use-modal-project.ts";
 import {Label} from "@/components/ui/label.tsx";
 
 export default function ProjectModal() {
-    const { isOpen, user, onClose } = useModalProject();
+    const { isOpen, /*user,*/ onClose } = useModalProject();
 
     if (!isOpen) return null;
 

@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import UserModal from "@/components/users/user-modal.tsx";
 import ProjectModal from "@/components/projects/project-modal.tsx";
+import MajorModal from "@/components/majors/major-modal.tsx";
+import MinorModal from "@/components/minors/minor-modal";
 
 export function ModalProvider() {
     const [isMounted, setIsMounted] = useState(false);
@@ -17,6 +19,8 @@ export function ModalProvider() {
         <>
             <UserModal/>
             <ProjectModal/>
+            <MajorModal/>
+            <MinorModal/> 
         </>
     );
 }
