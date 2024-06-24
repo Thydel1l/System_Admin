@@ -1,4 +1,4 @@
-import FullScreenLoader from "@/components/loader.tsx";
+import FullScreenLoader from "../loader.tsx";
 import React, {Suspense} from "react";
 
 const ProjectList = React.lazy(() => import('./project-list.tsx'));

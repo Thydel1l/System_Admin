@@ -5,12 +5,12 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select.tsx";
-import { Button } from "@/components/ui/button.tsx";
+} from "../ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select.tsx";
+import { Button } from "../ui/button.tsx";
 import { PlusIcon } from "lucide-react";
-import useModalUser from "@/hooks/use-modal-user.ts";
-import { Input } from "@/components/ui/input.tsx";
+import useModalUser from "../../hooks/use-modal-user.ts";
+import { Input } from "../ui/input.tsx";
 
 export default function UserModal() {
     const { isOpen, user, onClose } = useModalUser();

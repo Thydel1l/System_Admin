@@ -6,12 +6,12 @@ import {
     BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from "../ui/breadcrumb";
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button.tsx";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button.tsx";
 import { PlusIcon, Search } from "lucide-react";
-import useModalProject from "@/hooks/use-modal-minor.ts";
+import useModalProject from "../../hooks/use-modal-minor.ts";
 
 export default function UsersList() {
     const [imageURL, setImageURL] = useState("");

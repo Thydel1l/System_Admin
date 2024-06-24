@@ -7,7 +7,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
+} from "../ui/table";
 
 import {
     Select,
@@ -15,7 +15,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
+} from "../ui/select.tsx";
 
 import {
     Breadcrumb,
@@ -23,13 +23,13 @@ import {
     BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from "../ui/breadcrumb"
 
-import {Input} from "@/components/ui/input"
+import {Input} from "../ui/input"
 
-import {Button} from "@/components/ui/button.tsx";
+import {Button} from "../ui/button.tsx";
 import {Edit2, Menu, PlusIcon, Search, Trash} from "lucide-react";
-import userModalUser from "@/hooks/use-modal-user.ts";
+import userModalUser from "../../hooks/use-modal-user.ts";
 
 export default function UsersList() {
     const [users, setUsers] = useState<any[]>([]);
