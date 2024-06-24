@@ -6,9 +6,10 @@ import {
 } from "react-router-dom";
 import {Users} from "./components/users/users.tsx";
 import Home from "./components/home.tsx";
-import {Layout} from "@/components/layout.tsx";
-import {Projects} from "@/components/projects/projects.tsx";
-import {Minors} from "@/components/minors/minors.tsx";
+import {Layout} from "./components/layout.tsx";
+import {Projects} from "./components/projects/projects.tsx";
+import {Minors} from "./components/minors/minors.tsx";
+
 
 const router = createBrowserRouter([
     {
