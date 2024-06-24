@@ -9,13 +9,14 @@ import Home from "./components/home.tsx";
 import {Layout} from "./components/layout.tsx";
 import {Projects} from "./components/projects/projects.tsx";
 import {Minors} from "./components/minors/minors.tsx";
+import Login from "./components/minors/login.tsx";
 
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: (
-            <Home/>
+            <Login/>
         ),
     },
     {

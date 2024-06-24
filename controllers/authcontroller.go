@@ -14,15 +14,15 @@ func ValidateLogin(c *gin.Context) {
 		c.JSON(400, gin.H{"error": "Error parsing Json"})
 		return
 	}
-	if usuarioJson.Username == "" || usuarioJson.Password == "" {
+	if usuarioJson.Dni == "" || usuarioJson.Password == "" {
 		c.JSON(400, gin.H{"error": "Invalid JSON provided"})
 		return
 	}
 
 	var usuarioDB models.Usuario
-	result := initializers.DB.Where("dni = ?", usuarioJson.Username).First(&usuarioDB)
+	result := initializers.DB.Where("dni = ?", usuarioJson.Dni).First(&usuarioDB)
 	if result.Error != nil {
-		c.JSON(400, gin.H{"error": "Invalid username"})
+		c.JSON(400, gin.H{"error": "Not exists dni"})
 		return
 	}
 	err := bcrypt.CompareHashAndPassword([]byte(usuarioDB.Password), []byte(usuarioJson.Password))

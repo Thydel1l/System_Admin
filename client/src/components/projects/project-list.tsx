@@ -1,43 +1,29 @@
 import {useEffect, useState} from "react";
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "../ui/table";
+import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow,} from "../ui/table";
 
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "../ui/select"
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "../ui/select"
 
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbSeparator,
-} from "../ui/breadcrumb"
+import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator,} from "../ui/breadcrumb"
 
 import {Input} from "../ui/input"
 
 import {Button} from "../ui/button.tsx";
-import {Edit2, Menu, PlusIcon, Search, Trash} from "lucide-react";
+import {Edit2, LogOutIcon, Menu, PlusIcon, Search, Trash} from "lucide-react";
 import useModalProject from "../../hooks/use-modal-project.ts";
+import {useNavigate} from 'react-router-dom';
 
 export default function UsersList() {
     const [projects, setProjects] = useState<any[]>([]);
-
+    const navigate = useNavigate();
     const openModal = useModalProject((state) => state.openModal);
 
+    const onLogout = () => {
+        localStorage.removeItem("user");
+        navigate("/");
+    }
+
     useEffect(() => {
-        //fetch users
+
         fetch("https://jsonplaceholder.typicode.com/users").then((response) => {
             response.json().then((data) => {
                 console.log(data);
@@ -92,6 +78,12 @@ export default function UsersList() {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
+            <div>
+                <Button variant="destructive" size="sm" className="float-right"
+                        onClick={onLogout}>
+                    <LogOutIcon size={15} className="mr-2"/>
+                    Cerrar Sesión
+                </Button></div>
             <div className="container mx-auto p-4">
                 <h1 className="text-3xl font-bold text-start mb-2">Proyectos</h1>
                 <div className="flex justify-between items-center mb-4">

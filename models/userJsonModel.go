@@ -1,6 +1,6 @@
 package models
 
 type UserJson struct {
-	Username string
+	Dni      string
 	Password string
 }

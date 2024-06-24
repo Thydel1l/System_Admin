@@ -12,7 +12,7 @@ import { Input } from "../ui/input.tsx";
 import useModalMinor from "../../hooks/use-modal-minor.ts";
 import {Label} from "../ui/label.tsx";
 
-export default function ProjectModal() {
+export default function MinorModal() {
     const { isOpen, /*user,*/ onClose } = useModalMinor();
 
     if (!isOpen) return null;

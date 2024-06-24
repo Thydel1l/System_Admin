@@ -42,6 +42,6 @@ func SetupRoutes(router *gin.Engine) {
 	}
 	auth := router.Group("/api/v1/auth")
 	{
-		auth.POST("/", controllers.ValidateLogin)
+		auth.POST("/login", controllers.ValidateLogin)
 	}
 }

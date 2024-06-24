@@ -11,12 +11,12 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button.tsx";
 import { PlusIcon, Search } from "lucide-react";
-import useModalProject from "../../hooks/use-modal-minor.ts";
+import useModalMinor from "../../hooks/use-modal-minor.ts";
 
 export default function UsersList() {
     const [imageURL, setImageURL] = useState("");
 
-    const openModal = useModalProject((state) => state.openModal);
+    const openModal = useModalMinor((state) => state.openModal);
 
     useEffect(() => {
         
