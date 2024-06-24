@@ -20,6 +20,17 @@ func GetAllTareas(c *gin.Context) {
 
 }
 
+// func GetTareasDNI(c *gin.Context) {
+// 	Dni := c.Param("Dni")
+// 	var proyectos []models.Proyecto
+// 	var usuario models.Usuario
+// 	if result := initializers.DB.Where("dni = ?", Dni).First(&usuario); result.Error != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Usuario no encontrado"})
+// 		return
+// 	}
+// 	if result := initializers.DB.
+
+// }
 func GetTarea(c *gin.Context) {
 	var tarea models.Tarea
 	if result := initializers.DB.Preload("Proyecto.Usuario").First(&tarea, c.Param("id")); result.Error != nil {

@@ -12,3 +12,5 @@ type ArchivoAdjunto struct {
 	IDTarea       uint   `gorm:"not null"`
 	Tarea         Tarea  `gorm:"foreignKey:IDTarea"`
 }
+
+// un usuario -> "n" proyectos - > "n" tareas -> "n" archivos adjuntos

@@ -6,7 +6,7 @@ import (
 )
 
 func SetupRoutes(router *gin.Engine) {
-	usuarios := router.Group("/usuarios")
+	usuarios := router.Group("/api/v1/usuarios")
 	{
 		usuarios.GET("/", controllers.GetUsers)
 		usuarios.GET("/:id/", controllers.GetUser)
@@ -14,15 +14,16 @@ func SetupRoutes(router *gin.Engine) {
 		usuarios.PUT("/:id/", controllers.UpdateUser)
 		usuarios.DELETE("/:id/", controllers.DeleteUser)
 	}
-	proyectos := router.Group("/proyectos")
+	proyectos := router.Group("/api/v1/proyectos")
 	{
 		proyectos.GET("/", controllers.GetAllProyectos)
+		proyectos.GET("/usuario/:Dni", controllers.GetProyectosDNI)
 		proyectos.GET("/:id/", controllers.GetProyecto)
 		proyectos.POST("/", controllers.CreateProyecto)
 		proyectos.PUT("/:id/", controllers.UpdateProyecto)
 		proyectos.DELETE("/:id/", controllers.DeleteProyecto)
 	}
-	tareas := router.Group("/tareas")
+	tareas := router.Group("/api/v1/tareas")
 	{
 		tareas.GET("/", controllers.GetAllTareas)
 		tareas.GET("/:id/", controllers.GetTarea)
@@ -30,7 +31,7 @@ func SetupRoutes(router *gin.Engine) {
 		tareas.PUT("/:id/", controllers.UpdateTarea)
 		tareas.DELETE("/:id/", controllers.DeleteTarea)
 	}
-	archivosadjuntos := router.Group("/archivoadjuntos")
+	archivosadjuntos := router.Group("/api/v1/archivoadjuntos")
 	{
 		archivosadjuntos.GET("/", controllers.GetAllArchivosAdjuntos)
 		archivosadjuntos.GET("/:id/", controllers.GetArchivoAdjunto)
@@ -39,7 +40,7 @@ func SetupRoutes(router *gin.Engine) {
 		archivosadjuntos.DELETE("/:id/", controllers.DeleteArchivoAdjunto)
 
 	}
-	auth := router.Group("/auth")
+	auth := router.Group("/api/v1/auth")
 	{
 		auth.POST("/", controllers.ValidateLogin)
 	}

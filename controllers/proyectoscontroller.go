@@ -17,7 +17,21 @@ func GetAllProyectos(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": proyectos})
 }
+func GetProyectosDNI(c *gin.Context) {
+	Dni := c.Param("Dni")
+	var proyectos []models.Proyecto
+	var usuario models.Usuario
+	if result := initializers.DB.Where("dni = ?", Dni).First(&usuario); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Usuario no encontrado"})
+		return
+	}
+	if result := initializers.DB.Preload("Usuario").Where("id_usuario = ?", usuario.ID).Find(&proyectos); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error})
+		return
+	}
 
+	c.JSON(http.StatusOK, gin.H{"data": proyectos})
+}
 func GetProyecto(c *gin.Context) {
 	var proyecto models.Proyecto
 	if result := initializers.DB.Preload("Usuario").First(&proyecto, c.Param("id")); result.Error != nil {
@@ -27,6 +41,7 @@ func GetProyecto(c *gin.Context) {
 
 	c.JSON(200, gin.H{"data": proyecto})
 }
+
 func CreateProyecto(c *gin.Context) {
 	var proyecto models.Proyecto
 	if err := c.ShouldBindJSON(&proyecto); err != nil {
