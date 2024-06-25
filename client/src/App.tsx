@@ -9,6 +9,8 @@ import Home from "./components/home.tsx";
 import {Layout} from "./components/layout.tsx";
 import {Projects} from "./components/projects/projects.tsx";
 import {Minors} from "./components/minors/minors.tsx";
+import {Tasks} from "./components/tasks/tasks.tsx";
+import {Archives} from "./components/archives/archives.tsx";
 import Login from "./components/minors/login.tsx";
 
 
@@ -53,6 +55,26 @@ const router = createBrowserRouter([
         element: (
             <Layout>
                 <Minors/>
+            </Layout>
+
+        ),
+    },
+
+    {
+        path: "/tasks",
+        element: (
+            <Layout>
+                <Tasks/>
+            </Layout>
+
+        ),
+    },
+
+    {
+        path: "/archives",
+        element: (
+            <Layout>
+                <Archives/>
             </Layout>
 
         ),

@@ -14,6 +14,7 @@ func SetupRoutes(router *gin.Engine) {
 		usuarios.POST("/", controllers.CreateUser)
 		usuarios.PUT("/:id/", controllers.UpdateUser)
 		usuarios.DELETE("/:id/", controllers.DeleteUser)
+		usuarios.DELETE("/dni/:Dni", controllers.DeleteUserByDNI)
 	}
 	proyectos := router.Group("/api/v1/proyectos")
 	{

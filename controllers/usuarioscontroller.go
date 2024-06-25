@@ -166,3 +166,21 @@ func DeleteUser(c *gin.Context) {
 
 	c.JSON(200, gin.H{"data": true})
 }
+func DeleteUserByDNI(c *gin.Context) {
+	dni := c.Param("Dni")
+
+	var usuario models.Usuario
+	// Buscar el usuario por DNI
+	if result := initializers.DB.Where("dni = ?", dni).First(&usuario); result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	// Eliminar el usuario de la base de datos
+	if result := initializers.DB.Delete(&usuario); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": true})
+}
