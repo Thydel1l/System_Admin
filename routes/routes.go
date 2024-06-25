@@ -10,6 +10,7 @@ func SetupRoutes(router *gin.Engine) {
 	{
 		usuarios.GET("/", controllers.GetUsers)
 		usuarios.GET("/:id/", controllers.GetUser)
+		usuarios.PUT("/dni/:Dni", controllers.UpdateUserByDNI)
 		usuarios.POST("/", controllers.CreateUser)
 		usuarios.PUT("/:id/", controllers.UpdateUser)
 		usuarios.DELETE("/:id/", controllers.DeleteUser)
@@ -20,14 +21,20 @@ func SetupRoutes(router *gin.Engine) {
 		proyectos.GET("/usuario/:Dni", controllers.GetProyectosDNI)
 		proyectos.GET("/:id/", controllers.GetProyecto)
 		proyectos.POST("/", controllers.CreateProyecto)
+		proyectos.POST("/usuario/:Dni", controllers.CreateProyectoByDNI)
 		proyectos.PUT("/:id/", controllers.UpdateProyecto)
+		proyectos.PUT("/usuario/:Dni/:id", controllers.UpdateProyectoByDNI)
 		proyectos.DELETE("/:id/", controllers.DeleteProyecto)
 	}
 	tareas := router.Group("/api/v1/tareas")
 	{
 		tareas.GET("/", controllers.GetAllTareas)
 		tareas.GET("/:id/", controllers.GetTarea)
+		tareas.GET("/usuario/:Dni/proyecto/:projectID", controllers.GetTareasByDNIAndProjectID)
+		tareas.GET("/proyecto/:projectID", controllers.GetTareasByProjectID)
 		tareas.POST("/", controllers.CreateTarea)
+		tareas.POST("/proyecto/:projectID", controllers.CreateTareaByID)
+		tareas.PUT("/proyecto/:projectID/:tareaID", controllers.UpdateTareaByProjectID)
 		tareas.PUT("/:id/", controllers.UpdateTarea)
 		tareas.DELETE("/:id/", controllers.DeleteTarea)
 	}
