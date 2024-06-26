@@ -76,7 +76,7 @@ export default function UsersList() {
 
     const openModal = userModalUser((state) => state.openModal);
     const openModalUpdate = useModalUserUpdate((state) => state.openModal);
-    const { openModal: openConfirmModal } = useConfirmModal();
+    const {openModal: openConfirmModal} = useConfirmModal();
 
     return (
         <>
@@ -122,7 +122,8 @@ export default function UsersList() {
                                         }}>
                                             <Edit2 size={15} className="text-green-600"/>
                                         </Button>
-                                        <Button variant="outline" size="icon" onClick={() => openConfirmModal(user.ID, onDeleteUser(user.ID))}>
+                                        <Button variant="outline" size="icon"
+                                                onClick={() => openConfirmModal(user.ID, onDeleteUser(user.ID))}>
                                             <Trash size={15} className="text-red-600"/>
                                         </Button>
                                     </TableCell>

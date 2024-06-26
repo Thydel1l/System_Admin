@@ -23,7 +23,7 @@ func main() {
 
 	// Configuración del middleware CORS
 	config := cors.Config{
-		AllowOrigins:     []string{"http://localhost:9000", "http://localhost:5173"},
+		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
 		ExposeHeaders:    []string{"Content-Length"},

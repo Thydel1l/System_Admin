@@ -4,6 +4,10 @@ import { Button } from "./ui/button.tsx";
 
 const ConfirmDeleteModal = () => {
     const { isOpen, onDelete, onClose } = useConfirmModal();
+    const handleDelete = () => {
+        onDelete();
+        onClose();
+    }
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
@@ -16,7 +20,7 @@ const ConfirmDeleteModal = () => {
                 </DialogHeader>
                 <div className="flex justify-end">
                     <Button variant='ghost' onClick={onClose}>Cancelar</Button>
-                    <Button variant='destructive' onClick={onDelete} className="btn-danger">
+                    <Button variant='destructive' onClick={handleDelete} className="btn-danger">
                         Eliminar
                     </Button>
                 </div>
