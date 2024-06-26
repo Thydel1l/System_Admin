@@ -11,12 +11,6 @@ import useConfirmModal from "../../hooks/use-confirm-delete-modal.ts";
 
 export default function UsersList() {
     const [users, setUsers] = useState<any[]>([]);
-    const [actualUser, setActualUser] = useState({
-        Nombres: "",
-        Apellido_paterno: "",
-        Apellido_materno: "",
-        Email: "",
-    })
     const navigate = useNavigate();
 
     const onLogout = () => {
@@ -56,7 +50,6 @@ export default function UsersList() {
             Apellido_materno: datos.Apellido_materno,
             Email: datos.Email,
         }
-        setActualUser(datosParaActualizar)
         openModalUpdate(datosParaActualizar)
     }
 
@@ -133,8 +126,8 @@ export default function UsersList() {
                     </Table>
                 </div>
             </div>
-            <UserModal onAddUser={addUser}/>
-            <UserModalUpdate datosUsuario={actualUser}/>
+            <UserModal onAddUser={addUser} />
+            <UserModalUpdate />
         </>
     );
 }
