@@ -10,12 +10,6 @@ import UserModalUpdate from "./user-modal-update.tsx";
 
 export default function UsersList() {
     const [users, setUsers] = useState<any[]>([]);
-    const [actualUser, setActualUser] = useState({
-        Nombres: "",
-        Apellido_paterno: "",
-        Apellido_materno: "",
-        Email: "",
-    })
     const navigate = useNavigate();
 
     const onLogout = () => {
@@ -55,7 +49,6 @@ export default function UsersList() {
             Apellido_materno: datos.Apellido_materno,
             Email: datos.Email,
         }
-        setActualUser(datosParaActualizar)
         openModalUpdate(datosParaActualizar)
     }
 
@@ -117,7 +110,7 @@ export default function UsersList() {
                 </div>
             </div>
             <UserModal onAddUser={addUser} />
-            <UserModalUpdate datosUsuario={actualUser} />
+            <UserModalUpdate />
         </>
     );
 }
