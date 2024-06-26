@@ -4,6 +4,7 @@ import ProjectModal from "../components/projects/project-modal.tsx";
 import MinorModal from "../components/minors/minor-modal";
 import TaskModal from "../components/tasks/task-modal";
 import ArchiveModal from "../components/archives/archive-modal";
+import ConfirmDeleteModal from "../components/confirm-delete-modal.tsx";
 
 export function ModalProvider() {
     const [isMounted, setIsMounted] = useState(false);
@@ -23,6 +24,7 @@ export function ModalProvider() {
             <MinorModal/> 
             <TaskModal/>
             <ArchiveModal/>
+            <ConfirmDeleteModal/>
         </>
     );
 }

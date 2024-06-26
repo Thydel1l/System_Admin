@@ -7,8 +7,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "../../components/ui/table";
-
+} from "../ui/table.tsx";
 
 import {
     Breadcrumb,
@@ -23,6 +22,7 @@ import {Input} from "../ui/input"
 import {Button} from "../ui/button.tsx";
 import {Edit2, Menu, PlusIcon, Search, Trash} from "lucide-react";
 import useModalTask from "../../hooks/use-modal-task.ts";
+import useConfirmModal from "../../hooks/use-confirm-delete-modal.ts";
 
 export default function UsersList() {
     const [tasks, setTasks] = useState<any[]>([]);
@@ -30,25 +30,29 @@ export default function UsersList() {
     const openModal = useModalTask((state) => state.openModal);
 
     useEffect(() => {
-        //fetch users
-        fetch("https://jsonplaceholder.typicode.com/users").then((response) => {
+        const projectIdByParams = new URLSearchParams(window.location.search).get("projectId");
+        fetch(`/api/v1/tareas/proyecto/${projectIdByParams}`).then((response) => {
             response.json().then((data) => {
-                console.log(data);
+                setTasks(data.data);
             });
         })
-        setTasks([
-            {
-                Id_Tarea: 1,
-                Titulo: "Americas Cup",
-                Descripcion: "10/10/2021",
-                Fecha_Creacion: "10/10/2021",
-                Duracion_Dias: "21",
-                Id_proyecto: "1233333",
-                Id_usuario: "12333222",
-            },
-            
-        ]);
     }, []);
+
+    const onDeleteTask = (id: number) => () => {
+        fetch(`/api/v1/tareas/${id}`, {
+            method: "DELETE",
+        }).then((response) => {
+            if (response.ok) {
+                setTasks(tasks.filter((task) => task.ID !== id));
+            } else {
+                console.error("Failed to delete task:", response.status);
+            }
+        }).catch((error) => {
+            console.error("Error deleting task:", error);
+        });
+    }
+
+    const {openModal: openConfirmModal} = useConfirmModal();
 
     return (
         <>
@@ -71,8 +75,8 @@ export default function UsersList() {
                         <Search className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"/>
                     </div>
                     
-                    <Button size='sm' onClick={() => openModal({})}>
-                        <PlusIcon size={15} className="mr-2"/> Agregar Tarea
+                    <Button size='sm' onClick={() => openModal(null)}>
+                        <PlusIcon size={15} className="mr-2"/> Agregar
                     </Button>
 
                 </div>
@@ -84,11 +88,8 @@ export default function UsersList() {
                                 <TableHead className="w-[100px] text-center">Id</TableHead>
                                 <TableHead className="text-center">Titulo</TableHead>
                                 <TableHead className="text-center">Descripcion</TableHead>
-                                <TableHead className="text-center">Fecha_Creacion</TableHead>
-                                <TableHead className="text-center">Duracion_Dias</TableHead>
-                                <TableHead className="text-center">Id_proyecto </TableHead>
-                                <TableHead className="text-center">Id_usuario</TableHead>
-                                
+                                <TableHead className="text-center">Plazo</TableHead>
+                                <TableHead className="text-center">Acciones </TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -97,19 +98,19 @@ export default function UsersList() {
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>{task.Titulo}</TableCell>
                                     <TableCell>{task.Descripcion}</TableCell>
-                                    <TableCell>{task.Fecha_Creacion}</TableCell>
-                                    <TableCell>{task.Duracion_Dias}</TableCell>
-                                    <TableCell>{task.Id_proyecto}</TableCell>
-                                    <TableCell>{task.Id_usuario}</TableCell>
+                                    <TableCell>{task.PlazoFinalizacion}</TableCell>
                                     <TableCell className="flex justify-center space-x-2">
                                         <Button variant="outline" size="icon">
-                                            <Edit2 size={15} className="text-green-600"/>
+                                            <Edit2 size={15} className="text-green-600"
+                                            onClick={()=>openModal(task)}/>
                                         </Button>
                                         <Button variant="outline" size="icon">
                                             <Menu size={15} className="text-blue-600"/>
                                         </Button>
                                         <Button variant="outline" size="icon">
-                                            <Trash size={15} className="text-red-600"/>
+                                            <Trash size={15} className="text-red-600"
+                                                   onClick={() => openConfirmModal(task.ID, onDeleteTask(task.ID))}
+                                            />
                                         </Button>
                                     </TableCell>
                                 </TableRow>
