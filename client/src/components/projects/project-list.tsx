@@ -103,10 +103,12 @@ export default function UsersList() {
                                         </Button>
                                         <Button variant="outline" size="icon">
                                             <Trash size={15} className="text-red-600"
-                                                   onClick={() => openConfirmModal(project.ID, onDeleteProject(project.ID))}
+                                                   onClick={() => openConfirmModal(100, onDeleteProject(project.ID))}
                                             />
                                         </Button>
-                                        <Button variant="outline" size="icon" disabled>
+                                        <Button variant="outline" size="icon"
+                                                onClick={() => navigate(`/tasks?projectId=${project.ID}`)}
+                                        >
                                             <span className="text-xl text-blue-600 font-bold">T</span>
                                         </Button>
                                     </TableCell>
