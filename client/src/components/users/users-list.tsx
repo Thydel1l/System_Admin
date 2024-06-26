@@ -49,7 +49,7 @@ export default function UsersList() {
     function handleOpenModalUpdateDatos( datos ) {
         console.log(datos)
         const datosParaActualizar = {
-            DNI: datos.DNI,
+            DNI: datos.Dni,
             Nombres: datos.Nombres,
             Apellido_paterno: datos.Apellido_paterno,
             Apellido_materno: datos.Apellido_materno,

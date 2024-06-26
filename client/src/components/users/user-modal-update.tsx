@@ -15,7 +15,8 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 
 export default function UserModalUpdate() {
-    const { isOpen, onClose } = useModalUserUpdate();
+    const { isOpen, onClose, user } = useModalUserUpdate();
+    console.log(user)
     const [newUser, setNewUser] = useState({
         Dni: "",
         Nombres: "",
@@ -37,7 +38,8 @@ export default function UserModalUpdate() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        try {
+        console.log(newUser)
+        /*try {
             const response = await fetch("http://localhost:8080/api/v1/usuarios/", {
                 method: "POST",
                 headers: {
@@ -56,7 +58,7 @@ export default function UserModalUpdate() {
             }
         } catch (error) {
             console.error("Error adding user:", error);
-        }
+        }*/
     };
 
     return (
@@ -79,22 +81,22 @@ export default function UserModalUpdate() {
                     <Label className="mt-2">
                         Nombres:
                     </Label>
-                    <Input type="text" name="Nombres" placeholder="Ingrese nombres" value={newUser.Nombres} onChange={handleInputChange} required />
+                    <Input type="text" name="Nombres" placeholder="Ingrese nombres" value={user.Nombres} onChange={handleInputChange} required />
                     
                     <Label className="mt-2">
                         Apellido Paterno:
                     </Label>
-                    <Input type="text" name="Apellido_paterno" placeholder="Ingrese apellido paterno" value={newUser.Apellido_paterno} onChange={handleInputChange} required />
+                    <Input type="text" name="Apellido_paterno" placeholder="Ingrese apellido paterno" value={user.Apellido_paterno} onChange={handleInputChange} required />
                     
                     <Label className="mt-2">
                         Apellido Materno:
                     </Label>
-                    <Input type="text" name="Apellido_materno" placeholder="Ingrese apellido materno" value={newUser.Apellido_materno} onChange={handleInputChange} required />
+                    <Input type="text" name="Apellido_materno" placeholder="Ingrese apellido materno" value={user.Apellido_materno} onChange={handleInputChange} required />
                     
                     <Label className="mt-2">
                         Correo:
                     </Label>
-                    <Input type="email" name="Email" placeholder="Ingrese correo electrónico" value={newUser.Email} onChange={handleInputChange} required />
+                    <Input type="email" name="Email" placeholder="Ingrese correo electrónico" value={user.Email} onChange={handleInputChange} required />
                     
                     <Label className="mt-2">
                         Contraseña:
