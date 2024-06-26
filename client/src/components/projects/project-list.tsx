@@ -4,6 +4,9 @@ import { Button } from "../ui/button.tsx";
 import { Edit2, LogOutIcon, PlusIcon, Trash } from "lucide-react";
 import useModalProject from "../../hooks/use-modal-project.ts";
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+import useConfirmModal from "../../hooks/use-confirm-delete-modal.ts";
+
 
 export default function UsersList() {
     const [projects, setProjects] = useState<any[]>([]);
@@ -24,7 +27,13 @@ export default function UsersList() {
         fetch(`/api/v1/proyectos/usuario/${userId}`).then((response) => {
             if (response.ok) {
                 response.json().then((data) => {
-                    setProjects(data.data ?? []);
+                    setProjects([
+                        ...data.data.map((project) => ({
+                            ...project,
+                            FechaInicio: format(new Date(project.FechaInicio), 'yyyy-MM-dd'),
+                            FechaFin: format(new Date(project.FechaFin), 'yyyy-MM-dd'),
+                        }))
+                    ]);
                 });
             } else {
                 console.error("Failed to fetch projects:", response.status);
@@ -33,6 +42,22 @@ export default function UsersList() {
             console.error("Error fetching projects:", error);
         });
     }, []);
+
+    const onDeleteProject = (id: number) => () => {
+        fetch(`/api/v1/proyectos/${id}`, {
+            method: "DELETE",
+        }).then((response) => {
+            if (response.ok) {
+                setProjects(projects.filter((project) => project.ID !== id));
+            } else {
+                console.error("Failed to delete project:", response.status);
+            }
+        }).catch((error) => {
+            console.error("Error deleting project:", error);
+        });
+    }
+
+    const {openModal: openConfirmModal} = useConfirmModal();
 
     return (
         <>
@@ -46,7 +71,7 @@ export default function UsersList() {
             <div className="container mx-auto p-4">
                 <h1 className="text-3xl font-bold text-start mb-2">Proyectos</h1>
                 <div className="flex justify-between items-center mb-4">
-                    <Button size='sm' onClick={() => openModal({})}>
+                    <Button size='sm' onClick={() => openModal(null)}>
                         <PlusIcon size={15} className="mr-2" /> Agregar
                     </Button>
                 </div>
@@ -72,11 +97,14 @@ export default function UsersList() {
                                     <TableCell className="text-center">{project.FechaInicio}</TableCell>
                                     <TableCell className="text-center">{project.FechaFin}</TableCell>
                                     <TableCell className="flex justify-center space-x-2">
-                                        <Button variant="outline" size="icon">
+                                        <Button variant="outline" size="icon"
+                                                onClick={() => openModal(project)}>
                                             <Edit2 size={15} className="text-green-600" />
                                         </Button>
                                         <Button variant="outline" size="icon">
-                                            <Trash size={15} className="text-red-600" />
+                                            <Trash size={15} className="text-red-600"
+                                                   onClick={() => openConfirmModal(project.ID, onDeleteProject(project.ID))}
+                                            />
                                         </Button>
                                         <Button variant="outline" size="icon" disabled>
                                             <span className="text-xl text-blue-600 font-bold">T</span>
