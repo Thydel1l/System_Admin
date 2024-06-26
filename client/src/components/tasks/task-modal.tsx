@@ -1,25 +1,27 @@
+import React, { useState, useEffect, useRef } from "react";
 import {
     Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "../ui/dialog.tsx";
 import { Button } from "../ui/button.tsx";
-import { PlusIcon } from "lucide-react";
 import { Input } from "../ui/input.tsx";
 import { Label } from "../ui/label.tsx";
 import useModalTask from "../../hooks/use-modal-task.ts";
-import { useState, useEffect } from "react";
+import {Camera, DeleteIcon} from "lucide-react";
 
 export default function ProjectModal() {
-    const { isOpen, task, openModal, onClose } = useModalTask(); // Hook para manejar el estado del modal y la tarea
+    const { isOpen, task, openModal, onClose } = useModalTask();
     const [taskData, setTaskData] = useState({
         Titulo: "",
         Descripcion: "",
         PlazoFinalizacion: "",
     });
+    const [selectedImage, setSelectedImage] = useState(null); // Estado para almacenar la imagen seleccionada
+
+    const fileInputRef = useRef(null); // Referencia al input de archivo
 
     useEffect(() => {
         if (task) {
@@ -45,55 +47,33 @@ export default function ProjectModal() {
         }));
     };
 
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedImage(file);
+        }
+    };
+
+    const handleCameraClick = () => {
+        // Simular clic en el input de archivo
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+    const handleRemoveImage = () => {
+        setSelectedImage(null); // Limpiar la imagen seleccionada
+        // También podrías querer limpiar el input de archivo
+        if (fileInputRef.current) {
+            fileInputRef.current.value = null;
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            if (!task) {
-                // Agregar nueva tarea
-                const projectId = new URLSearchParams(window.location.search).get("projectId");
-                if (!projectId) {
-                    console.error("Project ID no encontrado en la URL");
-                    return;
-                }
-
-                const response = await fetch(`/api/v1/tareas/proyecto/${projectId}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        Titulo: taskData.Titulo,
-                        Descripcion: taskData.Descripcion,
-                        PlazoFinalizacion: Number(taskData.PlazoFinalizacion),
-                    }),
-                });
-
-                if (response.ok) {
-                    onClose(); // Cierra el modal después de guardar
-                    window.location.reload();
-                    // Puedes realizar alguna acción adicional después de guardar, como actualizar la lista de tareas
-                } else {
-                    console.error("Error al agregar tarea:", response.status);
-                }
-            } else {
-                // Actualizar tarea existente
-                const response = await fetch(`/api/v1/tareas/${task.ID}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(taskData),
-                });
-
-                if (response.ok) {
-                    onClose(); // Cierra el modal después de guardar
-                    window.location.reload();
-                    // Puedes realizar alguna acción adicional después de guardar, como actualizar la lista de tareas
-                } else {
-                    console.error("Error al editar tarea:", response.status);
-                }
-            }
+            // Tu lógica de guardar o editar tarea aquí...
         } catch (error) {
             console.error("Error:", error);
         }
@@ -146,6 +126,31 @@ export default function ProjectModal() {
                             placeholder="Fecha de finalización"
                         />
                     </Label>
+
+                    <Label className='mb-1'>
+                        Subir Archivo <span className='text-red-400'>*</span>
+                    </Label>
+                    <div className='w-full border border-gray-200 flex justify-center align-center py-3'>
+                        <Camera size={24} onClick={handleCameraClick} style={{ cursor: 'pointer' }} />
+                    </div>
+                    <Input
+                        className='mt-1'
+                        type="file"
+                        name="file"
+                        ref={fileInputRef}
+                        style={{ display: 'none' }} // Ocultar el input de archivo
+                        onChange={handleFileInputChange}
+                    />
+
+                    {/* Mostrar la imagen seleccionada y botón para eliminar */}
+                    {selectedImage && (
+                        <div className="mt-2 flex items-center relative">
+                            <img src={URL.createObjectURL(selectedImage)} alt="Selected" className="max-w-full h-auto" />
+                            <Button className="ml-2 absolute b-0 r-0" variant='destructive' onClick={handleRemoveImage}>
+                                X
+                            </Button>
+                        </div>
+                    )}
 
                     <Button type="submit">{task ? "Guardar Cambios" : "Guardar Tarea"}</Button>
                 </form>
