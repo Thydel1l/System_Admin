@@ -1,111 +1,113 @@
-import {useEffect, useState} from "react";
-import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow,} from "../ui/table";
-
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "../ui/select.tsx";
-
-import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator,} from "../ui/breadcrumb"
-
-import {Input} from "../ui/input"
-
-import {Button} from "../ui/button.tsx";
-import {Edit2, LogOutIcon, Menu, PlusIcon, Search, Trash} from "lucide-react";
+import { useEffect, useState } from "react";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { Button } from "../ui/button.tsx";
+import { Edit2, LogOutIcon, PlusIcon, Trash } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import userModalUser from "../../hooks/use-modal-user.ts";
-import {useNavigate} from "react-router-dom";
+import useModalUserUpdate from "../../hooks/use-modal-user-update.ts";
+import UserModal from "./user-modal";
+import UserModalUpdate from "./user-modal-update.tsx";
 
 export default function UsersList() {
     const [users, setUsers] = useState<any[]>([]);
+    const [actualUser, setActualUser] = useState({
+        Nombres: "",
+        Apellido_paterno: "",
+        Apellido_materno: "",
+        Email: "",
+    })
     const navigate = useNavigate();
+
     const onLogout = () => {
         localStorage.removeItem("user");
         navigate("/");
-    }
-    useEffect(() => {
+    };
 
+    useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user") || '{}');
         if (user.Rol !== 'admin') {
             navigate("/");
         }
 
         fetch("/api/v1/usuarios").then((response) => {
-            response.json().then((res) => {
-                setUsers(res.data);
-            });
-        })
-
+            if (response.ok) {
+                response.json().then((res) => {
+                    setUsers(res.data);
+                });
+            } else {
+                console.error("Failed to fetch users:", response.status);
+            }
+        }).catch((error) => {
+            console.error("Error fetching users:", error);
+        });
     }, []);
 
-    const openModal = userModalUser((state) => state.openModal);
+    const addUser = (newUser: any) => {
+        setUsers([...users, newUser]);
+    };
+
+    function handleOpenModalUpdateDatos( datos ) {
+        console.log(datos)
+        const datosParaActualizar = {
+            DNI: datos.Dni,
+            Nombres: datos.Nombres,
+            Apellido_paterno: datos.Apellido_paterno,
+            Apellido_materno: datos.Apellido_materno,
+            Email: datos.Email,
+        }
+        setActualUser(datosParaActualizar)
+        openModalUpdate(datosParaActualizar)
+    }
+
+    const openModal = userModalUser((state) => state.openModal); 
+    const openModalUpdate = useModalUserUpdate((state) => state.openModal); 
 
     return (
         <>
-            <Breadcrumb>
-                <BreadcrumbList>
-                    <BreadcrumbItem>
-                        <BreadcrumbLink href="/" className='font-semibold'>Inicio</BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator/>
-                    <BreadcrumbItem>
-                        <BreadcrumbLink>Usuarios</BreadcrumbLink>
-                    </BreadcrumbItem>
-                </BreadcrumbList>
-            </Breadcrumb>
             <div>
-                <Button variant="destructive" size="sm" className="float-right"
-                        onClick={onLogout}>
-                    <LogOutIcon size={15} className="mr-2"/>
+                <Button variant="destructive" size="sm" className="float-right" onClick={onLogout}>
+                    <LogOutIcon size={15} className="mr-2" />
                     Cerrar Sesión
-                </Button></div>
+                </Button>
+            </div>
             <div className="container mx-auto p-4">
                 <h1 className="text-3xl font-bold text-start mb-2">Usuarios</h1>
                 <div className="flex justify-between items-center mb-4">
-                    <div className="relative">
-                        <Input className="pr-10" placeholder="Buscar..."/>
-                        <Search className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"/>
-                    </div>
-                    <Select>
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Rol"/>
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="light">Admin</SelectItem>
-                            <SelectItem value="dark">User</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    <Button size='sm' onClick={() => openModal({})}>
-                        <PlusIcon size={15} className="mr-2"/> Agregar
+                    <Button size='sm' onClick={openModal}>
+                        <PlusIcon size={15} className="mr-2" /> Agregar
                     </Button>
-
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
                     <Table>
-                        <TableCaption>Lista de usuarios mas recientes</TableCaption>
+                        <TableCaption>Lista de usuarios más recientes</TableCaption>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[100px] text-center">Item</TableHead>
-                                <TableHead className="text-center">Usuario</TableHead>
-                                <TableHead className="text-center">Email</TableHead>
-                                <TableHead className="text-center">Contraseña</TableHead>
+                                <TableHead className="w-[100px] text-center">ID</TableHead>
+                                <TableHead className="text-center">Nombres</TableHead>
+                                <TableHead className="text-center">Apellido Paterno</TableHead>
+                                <TableHead className="text-center">Apellido Materno</TableHead>
+                                <TableHead className="text-center">DNI</TableHead>
                                 <TableHead className="text-center">Rol</TableHead>
                                 <TableHead className="text-center">Acciones</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {users.map((user, index) => (
-                                <TableRow key={user.id}>
-                                    <TableCell>{index + 1}</TableCell>
+                            {users.map((user) => (
+                                <TableRow key={user.ID}>
+                                    <TableCell>{user.ID}</TableCell>
                                     <TableCell>{user.Nombres}</TableCell>
-                                    <TableCell>{user.Email}</TableCell>
-                                    <TableCell>{user.Password}</TableCell>
+                                    <TableCell>{user.Apellido_paterno}</TableCell>
+                                    <TableCell>{user.Apellido_materno}</TableCell>
+                                    <TableCell>{user.Dni}</TableCell>
                                     <TableCell>{user.Rol}</TableCell>
                                     <TableCell className="flex justify-center space-x-2">
-                                        <Button variant="outline" size="icon">
-                                            <Edit2 size={15} className="text-green-600"/>
+                                        <Button variant="outline" size="icon" onClick={() => {
+                                                handleOpenModalUpdateDatos(user)
+                                            }}>
+                                            <Edit2 size={15} className="text-green-600" />
                                         </Button>
                                         <Button variant="outline" size="icon">
-                                            <Menu size={15} className="text-blue-600"/>
-                                        </Button>
-                                        <Button variant="outline" size="icon">
-                                            <Trash size={15} className="text-red-600"/>
+                                            <Trash size={15} className="text-red-600" />
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -114,7 +116,8 @@ export default function UsersList() {
                     </Table>
                 </div>
             </div>
+            <UserModal onAddUser={addUser} />
+            <UserModalUpdate datosUsuario={actualUser} />
         </>
-
     );
 }
