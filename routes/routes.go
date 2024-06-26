@@ -16,6 +16,7 @@ func SetupRoutes(router *gin.Engine) {
 		usuarios.DELETE("/:id/", controllers.DeleteUser)
 		usuarios.DELETE("/dni/:Dni", controllers.DeleteUserByDNI)
 	}
+
 	proyectos := router.Group("/api/v1/proyectos")
 	{
 		proyectos.GET("/", controllers.GetAllProyectos)
@@ -27,6 +28,7 @@ func SetupRoutes(router *gin.Engine) {
 		proyectos.PUT("/usuario/:Dni/:id", controllers.UpdateProyectoByDNI)
 		proyectos.DELETE("/:id/", controllers.DeleteProyecto)
 	}
+
 	tareas := router.Group("/api/v1/tareas")
 	{
 		tareas.GET("/", controllers.GetAllTareas)
@@ -39,6 +41,7 @@ func SetupRoutes(router *gin.Engine) {
 		tareas.PUT("/:id/", controllers.UpdateTarea)
 		tareas.DELETE("/:id/", controllers.DeleteTarea)
 	}
+
 	archivosadjuntos := router.Group("/api/v1/archivoadjuntos")
 	{
 		archivosadjuntos.GET("/", controllers.GetAllArchivosAdjuntos)
@@ -48,6 +51,7 @@ func SetupRoutes(router *gin.Engine) {
 		archivosadjuntos.DELETE("/:id/", controllers.DeleteArchivoAdjunto)
 
 	}
+
 	auth := router.Group("/api/v1/auth")
 	{
 		auth.POST("/login", controllers.ValidateLogin)
