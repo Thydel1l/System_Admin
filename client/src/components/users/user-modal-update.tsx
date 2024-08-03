@@ -84,7 +84,7 @@ export default function UserModalUpdate() {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Agregar usuario</DialogTitle>
+                    <DialogTitle> Editar usuario</DialogTitle>
                     <DialogDescription>
                         Complete los campos para agregar un nuevo usuario
                     </DialogDescription>
